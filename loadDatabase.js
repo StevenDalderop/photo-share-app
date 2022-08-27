@@ -22,10 +22,15 @@ mongoose.Promise = require('bluebird');
 
 require('dotenv').config();
 
-// let uriDevelopment = 'mongodb://localhost/cs142project6';
-let uriDeployment = `mongodb+srv://steven:${process.env.password}@cluster0.gihhua4.mongodb.net/?retryWrites=true&w=majority`;
+let uri;
 
-mongoose.connect(uriDeployment, { useNewUrlParser: true, useUnifiedTopology: true });
+if (process.env.database === "mongo-atlas") {
+    uri = `mongodb+srv://steven:${process.env.password}@cluster0.gihhua4.mongodb.net/?retryWrites=true&w=majority`;
+} else {
+    uri = 'mongodb://localhost/cs142project6';
+}
+
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 // Get the magic models we used in the previous projects.

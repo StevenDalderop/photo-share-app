@@ -12,16 +12,15 @@ Add data to the database:
 
     node loadDatabase.js 
 
+## Usage
+
 Compile the frontend files:
 
-    npm run build:w 
-
-
-## Usage
+    npm run build
 
 To start the webserver:
 
-    nodemon webServer.js  
+    npm run start 
 
 For testing run in the test folder:
 

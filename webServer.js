@@ -52,11 +52,15 @@ var Photo = require('./schema/photo.js');
 var SchemaInfo = require('./schema/schemaInfo.js');
 var Activity = require('./schema/activity.js');
 
+let uri;
 
-// let uriDevelopment = 'mongodb://localhost/cs142project6';
-let uriDeployment = `mongodb+srv://steven:${process.env.password}@cluster0.gihhua4.mongodb.net/?retryWrites=true&w=majority`;
+if (process.env.database === "mongo-atlas") {
+    uri = `mongodb+srv://steven:${process.env.password}@cluster0.gihhua4.mongodb.net/?retryWrites=true&w=majority`;
+} else {
+    uri = 'mongodb://localhost/cs142project6';
+}
 
-mongoose.connect(uriDeployment, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // We have the express static module (http://expressjs.com/en/starter/static-files.html) do all
 // the work for us.
