@@ -1,0 +1,25 @@
+.photo {
+    width: 100%;
+    height: auto;
+}
+
+.comment {
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+    align-items: start !important;
+}
+
+.comment-header {
+    display: flex;
+    flex-direction: row;
+}
+
+.comment-date-time {
+    margin-right: 15px !important;
+}
+
+.likes {
+    margin-left: auto;
+    width: 35px;
+}

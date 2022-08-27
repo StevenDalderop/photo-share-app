@@ -1,0 +1,20 @@
+.cs142-topbar-appBar {
+  height: 60px;
+  justify-content: center;
+}
+
+.topbar-right {
+  margin-left: auto !important;
+}
+
+.version {
+  margin-left: 15px !important;
+}
+
+.logout-button {
+  margin-left: 15px !important;
+}
+
+.drawer {
+  min-width: 150px;
+}

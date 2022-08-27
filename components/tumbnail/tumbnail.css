@@ -1,0 +1,13 @@
+.tumbnail-container {
+    width: 100%;
+    max-width: 250px;
+}
+
+.tumbnail {
+    width: 100%;
+    height: auto;
+}
+
+.tumbnail:hover {
+    cursor: pointer;
+}
