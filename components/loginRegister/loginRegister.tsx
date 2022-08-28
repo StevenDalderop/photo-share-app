@@ -1,5 +1,4 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import './loginRegister.css';
 
 import { Typography, TextField, Button, Snackbar, Grid } from '@material-ui/core';

@@ -35,7 +35,7 @@ class Activities extends React.Component<{ callback: (text: string) => void }, {
     return (
       <Grid key={activity._id} item xs={12}>
         <Typography variant="body1">
-          {activity.date_time}
+          {new Date(activity.date_time).toLocaleString()}
         </Typography>
         <Typography variant="body1">
           {activity.type}

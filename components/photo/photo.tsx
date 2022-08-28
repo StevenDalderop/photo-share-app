@@ -39,7 +39,7 @@ class Photo extends React.Component<myProps> {
       <div key={comment._id} className="comment">
         <div className="comment-header">
           <Typography variant="body1" className="comment-date-time">
-            {comment.date_time}
+            {new Date(comment.date_time).toLocaleString()}
           </Typography>
           <Typography component={Link} to={"/users/" + comment.user._id} variant="body1" className="comment-date-time">
             {comment.user.first_name + " " + comment.user.last_name}
@@ -70,7 +70,7 @@ class Photo extends React.Component<myProps> {
         <Grid container justifyContent='space-between'>
           <Grid item sm={6}>
             <Typography variant="caption">
-              {img.date_time}
+              {new Date(img.date_time).toLocaleString()}
             </Typography>
           </Grid>
           <Grid item sm={2}>
