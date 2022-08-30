@@ -458,7 +458,7 @@ app.post('/photos/new', (request, response) => {
             response.status(400).send('invalid mimetype');
             return;
         }
-        if (request.file.size > 2 ** 10 * 4000) {
+        if (request.file.size > 2  * 10 ** 6 ) { // 2 megabyte
             response.status(400).send('filesize too large');
             return;
         }

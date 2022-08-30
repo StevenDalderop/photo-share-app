@@ -121,7 +121,7 @@ class TopBar extends React.Component<myProps, myState> {
                   </ListItem>
                   <ListItem>
                     <Button color="inherit" onClick={this.handleClick}>
-                      Activities
+                      Latest activities
                     </Button>
                   </ListItem>
                   <ListItem>
@@ -163,7 +163,7 @@ class TopBar extends React.Component<myProps, myState> {
                 Add photo
               </Button>
               <Button color="inherit" onClick={this.handleClick}>
-                Activities
+                Latest activities
               </Button>
               <Typography className="version" variant="subtitle2" color="inherit">
                 {"Version: " + this.state.version}

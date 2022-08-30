@@ -5,11 +5,12 @@ import {
   Grid,
   Typography
 } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import Tumbnail from "../tumbnail/tumbnail";
 import { activity } from "../../types";
 
 
-class Activities extends React.Component<{ callback: (text: string) => void }, { activities: activity[] }> {
+class UserActivities extends React.Component<{ callback: (text: string) => void }, { activities: activity[] }> {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,14 +35,14 @@ class Activities extends React.Component<{ callback: (text: string) => void }, {
   renderActivity(activity: activity) {
     return (
       <Grid key={activity._id} item xs={12}>
-        <Typography variant="body1">
-          {new Date(activity.date_time).toLocaleString()}
-        </Typography>
-        <Typography variant="body1">
+        <Typography variant="h5">
           {activity.type}
         </Typography>
-        <Typography variant="body1">
+        <Typography variant="body2" component={Link} to={"/users/" + activity.user._id}>
           {`${activity.user.first_name} ${activity.user.last_name}`}
+        </Typography>
+        <Typography variant="body2">
+          {new Date(activity.date_time).toLocaleString()}
         </Typography>
         {activity.photo ? <Tumbnail {...this.props} img={activity.photo} /> : null}
       </Grid>
@@ -66,4 +67,4 @@ class Activities extends React.Component<{ callback: (text: string) => void }, {
   }
 }
 
-export default Activities;
+export default UserActivities;

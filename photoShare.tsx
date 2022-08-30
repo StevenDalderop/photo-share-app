@@ -16,7 +16,7 @@ import UserList from './components/userList/userList';
 import UserPhotos from './components/userPhotos/userPhotos';
 import LoginRegister from './components/loginRegister/loginRegister';
 import AddPhoto from './components/addPhoto/addPhoto';
-import Activities from './components/activities/activities';
+import Activities from './components/userActivities/userActivities';
 import PrivateRoute from './components/privateRoute/privateRoute';
 
 import { user } from './types';

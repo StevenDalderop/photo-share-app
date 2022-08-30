@@ -6,6 +6,7 @@ import {
 import { MentionsInput, Mention } from 'react-mentions';
 import axios from "axios";
 
+import './commentForm.css';
 import { photo, user } from '../../types';
 
 type myProps = {
@@ -16,7 +17,7 @@ type myProps = {
 
 type myState = {
   comment: string,
-  mentions: string[]
+  mentions: any[]
 }
 
 
@@ -52,11 +53,14 @@ class CommentForm extends React.Component<myProps, myState> {
 
 
   render() {
+    console.log(this.state.comment);
+    console.log(this.state.mentions);
     return (
-      <form noValidate autoComplete="off" onSubmit={(e) => this.handleSubmit(e)}>
+      <form className="comment-form" noValidate autoComplete="off" onSubmit={(e) => this.handleSubmit(e)}>
+        <div id="suggestions"></div>
         <Grid container alignItems="flex-end" spacing={3}>
-          <Grid item xs={9}>
-            <MentionsInput name="comment" value={this.state.comment} onChange={this.handleChange}>
+          <Grid item xs className="mentions-container">
+            <MentionsInput className="mentions" name="comment" placeholder="Add a comment" suggestionsPortalHost={document.getElementById("suggestions")} value={this.state.comment} onChange={this.handleChange}>
               <Mention
                 trigger="@"
                 data={this.props.users.map(function (user) {
@@ -65,8 +69,8 @@ class CommentForm extends React.Component<myProps, myState> {
               />
             </MentionsInput>
           </Grid>
-          <Grid item xs={3}>
-            <Button className="add-comment-button" variant="contained" color="primary" size="medium" type="submit">
+          <Grid item xs={"auto"}>
+            <Button className="add-comment-button" variant="contained" color="primary" size="small" type="submit">
               Add
             </Button>
           </Grid>

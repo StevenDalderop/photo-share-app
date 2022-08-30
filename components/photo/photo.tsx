@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Typography, List, Divider, Grid } from '@material-ui/core';
 import axios from 'axios';
 import { ThumbUp, ThumbUpOutlined } from '@material-ui/icons';
-import CommentForm from '../commentForm/CommentForm';
+import CommentForm from '../commentForm/commentForm';
 
 import { photo, user } from '../../types';
 
@@ -46,7 +46,7 @@ class Photo extends React.Component<myProps> {
           </Typography>
         </div>
         <Typography variant="body2">
-          {comment.comment}
+          {`${comment.comment}`}
         </Typography>
         <Divider />
       </div>
@@ -67,7 +67,7 @@ class Photo extends React.Component<myProps> {
     return (
       <Grid key={img._id} item sm={7} md={5}>
         <img id={img._id} className="photo" src={"../images/" + img.file_name} />
-        <Grid container justifyContent='space-between'>
+        <Grid container justifyContent='space-between' alignItems='flex-end'>
           <Grid item sm={6}>
             <Typography variant="caption">
               {new Date(img.date_time).toLocaleString()}
@@ -78,7 +78,7 @@ class Photo extends React.Component<myProps> {
               {liked ?
                 <ThumbUp color="primary" onClick={() => this.handleLike(img)} /> :
                 <ThumbUpOutlined color="primary" onClick={() => this.handleLike(img)} />}
-              <Typography variant="caption">
+              <Typography variant="caption" className="likes-count">
                 {img.likes.length}
               </Typography>
             </div>

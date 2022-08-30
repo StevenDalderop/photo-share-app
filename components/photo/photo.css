@@ -20,6 +20,11 @@
 }
 
 .likes {
-    margin-left: auto;
-    width: 35px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.likes-count {
+    line-height: 1 !important;
 }
