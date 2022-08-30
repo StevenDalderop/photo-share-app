@@ -7,7 +7,7 @@ import { MentionsInput, Mention } from 'react-mentions';
 import axios from "axios";
 
 import './commentForm.css';
-import { photo, user } from '../../types';
+import { photo, user, mention } from '../../types';
 
 type myProps = {
   img: photo,
@@ -17,7 +17,8 @@ type myProps = {
 
 type myState = {
   comment: string,
-  mentions: any[]
+  plainComment: string,
+  mentions: mention[]
 }
 
 
@@ -25,44 +26,46 @@ class CommentForm extends React.Component<myProps, myState> {
   constructor(props) {
     super(props);
     this.state = {
+      plainComment: "",
       comment: "",
       mentions: []
     };
   }
 
-  handleChange = (e, newValue, newPlainTextValue, mentions) => {
-    this.setState({ comment: newPlainTextValue, mentions: mentions });
+  handleChange = (e : React.SyntheticEvent, newValue: string, newPlainTextValue: string, mentions: mention[]) => {
+    this.setState({ plainComment: newPlainTextValue, comment: newValue, mentions: mentions });
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('/commentsOfPhoto/' + this.props.img._id, { comment: this.state.comment })
+    axios.post('/commentsOfPhoto/' + this.props.img._id, { comment: this.state.plainComment })
       .then(() => {
-        this.setState({ comment: "" });
+        this.setState({ plainComment: "", comment: "" });
+      })
+      .catch(err => console.log(err.response));
 
-        axios.post('mentionsOfPhoto/' + this.props.img._id, { mentions: this.state.mentions })
-          .then(() => {
-            this.setState({ mentions: [] });
-
-            this.props.reloadPhotos();
-          })
-          .catch(err => console.log(err.response));
+    axios.post('mentionsOfPhoto/' + this.props.img._id, { mentions: this.state.mentions })
+      .then(() => {
+        this.setState({ mentions: [] });
+        this.props.reloadPhotos();
       })
       .catch(err => console.log(err.response));
   };
 
 
   render() {
-    console.log(this.state.comment);
-    console.log(this.state.mentions);
+    console.log(this.state);
     return (
       <form className="comment-form" noValidate autoComplete="off" onSubmit={(e) => this.handleSubmit(e)}>
         <div id="suggestions"></div>
         <Grid container alignItems="flex-end" spacing={3}>
           <Grid item xs className="mentions-container">
-            <MentionsInput className="mentions" name="comment" placeholder="Add a comment" suggestionsPortalHost={document.getElementById("suggestions")} value={this.state.comment} onChange={this.handleChange}>
+            <MentionsInput className="mentions" name="comment" placeholder="Add a comment"
+              suggestionsPortalHost={document.getElementById("suggestions")}
+              value={this.state.comment} onChange={this.handleChange}>
               <Mention
                 trigger="@"
+                style={{ backgroundColor: "#cee4e5", color: "black" }}
                 data={this.props.users.map(function (user) {
                   return { id: user._id, display: "@" + user.first_name + " " + user.last_name };
                 })}

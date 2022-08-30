@@ -23,7 +23,6 @@
 }
 
 .mentions__input {
-    color: rgba(0, 0, 0, 0.87);
     border-radius: 5px;
 }
 
@@ -54,10 +53,6 @@
     background-color: #cee4e5;
 }
 
-
-
-
-
 .mentions--singleLine .mentions__highlighter {
     padding: 1px;
     border: 2px inset transparent;
@@ -66,6 +61,8 @@
 .mentions--multiLine .mentions__highlighter {
     border: 1px solid transparent;
     padding: 9px;
+    color: black;
+    font-weight: bold;
 }
 
 .mentions__mention {

@@ -33,4 +33,12 @@ type activity = {
     photo: photo
 }
 
-export type {comment, user, photo, activity}
+type mention = {
+    childIndex: number,
+    display: string,
+    id: string,
+    index: number,
+    plainTextIndex: number
+}
+
+export type {comment, user, photo, activity, mention}
