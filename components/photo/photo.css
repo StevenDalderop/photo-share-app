@@ -28,3 +28,10 @@
 .likes-count {
     line-height: 1 !important;
 }
+
+.mention {
+    background-color: lightblue;
+    color: black;
+    text-decoration: underline;
+    font-weight: 400 !important;
+}

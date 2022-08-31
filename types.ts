@@ -2,7 +2,10 @@ type comment = {
     _id: string,
     comment: string,
     date_time: Date,
-    user_id: string | user
+    user_id: string | user,
+    user: user,
+    mentions: mention[],
+    comment_markup: string
 }
 
 type user = {

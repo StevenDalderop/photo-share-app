@@ -102,6 +102,7 @@ Promise.all(removePromises).then(function () {
                     photo.comments.forEach(function (comment) {
                         photoObj.comments = photoObj.comments.concat([{
                             comment: comment.comment,
+                            comment_markup: comment.comment,
                             date_time: comment.date_time,
                             user_id: comment.user.objectID
                         }]);

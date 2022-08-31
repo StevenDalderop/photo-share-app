@@ -341,9 +341,11 @@ app.get('/photosOfUser/:id', function (request, response) {
 app.post('/commentsOfPhoto/:photo_id', (req, res) => {
     const photo_id = req.params.photo_id;
     const comment = req.body.comment;
+    const mentions = req.body.mentions;
+    const comment_markup = req.body.comment_markup;
     const user_id = req.session.user_id;
 
-    if (comment === "") {
+    if (comment === "" || comment_markup === "") {
         res.status(400).send();
         return;
     }
@@ -360,6 +362,8 @@ app.post('/commentsOfPhoto/:photo_id', (req, res) => {
 
         const new_comment = {
             comment: comment,
+            comment_markup: comment_markup,
+            mentions: mentions,
             user_id: user_id
         };
 

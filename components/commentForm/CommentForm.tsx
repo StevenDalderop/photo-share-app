@@ -7,7 +7,7 @@ import { MentionsInput, Mention } from 'react-mentions';
 import axios from "axios";
 
 import './commentForm.css';
-import { photo, user, mention } from '../../types';
+import { photo, user, mention, comment } from '../../types';
 
 type myProps = {
   img: photo,
@@ -38,7 +38,9 @@ class CommentForm extends React.Component<myProps, myState> {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('/commentsOfPhoto/' + this.props.img._id, { comment: this.state.plainComment })
+    let comment = { comment: this.state.plainComment, mentions: this.state.mentions, comment_markup: this.state.comment };
+
+    axios.post('/commentsOfPhoto/' + this.props.img._id, comment)
       .then(() => {
         this.setState({ plainComment: "", comment: "" });
       })
@@ -65,7 +67,7 @@ class CommentForm extends React.Component<myProps, myState> {
               value={this.state.comment} onChange={this.handleChange}>
               <Mention
                 trigger="@"
-                style={{ backgroundColor: "#cee4e5", color: "black" }}
+                className="mentions__mention"
                 data={this.props.users.map(function (user) {
                   return { id: user._id, display: "@" + user.first_name + " " + user.last_name };
                 })}
