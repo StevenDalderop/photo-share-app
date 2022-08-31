@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import './photo.css';
 import { Link } from 'react-router-dom';
 import { Typography, List, Divider, Grid } from '@material-ui/core';
@@ -6,7 +6,7 @@ import axios from 'axios';
 import { ThumbUp, ThumbUpOutlined } from '@material-ui/icons';
 import CommentForm from '../commentForm/commentForm';
 
-import { photo, user, mention, comment } from '../../types';
+import { photo, user, comment } from '../../types';
 
 type myProps = {
   img: photo,

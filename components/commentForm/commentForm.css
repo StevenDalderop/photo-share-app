@@ -1,0 +1,57 @@
+.add-comment-button {
+    width: 100%;
+}
+
+.comment-form {
+    margin-top: 15px;
+}
+
+.mentions-container {
+    overflow-x: hidden;
+}
+
+
+.mentions__control {
+    font-family: "Roboto", helvetica, arial, sans-serif;
+    font-size: 14px;
+}
+
+.mentions__input {
+    border: 1px solid silver;
+    padding: 9px;
+    border-radius: 5px;
+}
+
+.mentions__input:focus-visible {
+    outline: solid 2px black;
+}
+
+.mentions__suggestions__list {
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    font-size: 10pt;
+    font-family: "Roboto", helvetica, arial, sans-serif;
+}
+
+.mentions__suggestions__item {
+    padding: 5px 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.mentions__suggestions__item--focused {
+    background-color: #cee4e5;
+}
+
+.mentions__highlighter {
+    border: 1px solid transparent;
+    padding: 9px;
+}
+
+.mentions__mention {
+    position: relative;
+    z-index: 1;
+    color: black;
+    background-color: lightblue;
+    text-decoration: underline;
+    pointer-events: none;
+}

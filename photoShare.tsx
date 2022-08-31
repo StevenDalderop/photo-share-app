@@ -10,7 +10,7 @@ import './styles/main.css';
 import axios
   from 'axios';
 // import necessary components
-import TopBar from './components/topBar/TopBar';
+import TopBar from './components/topBar/topBar';
 import UserDetail from './components/userDetail/userDetail';
 import UserList from './components/userList/userList';
 import UserPhotos from './components/userPhotos/userPhotos';
