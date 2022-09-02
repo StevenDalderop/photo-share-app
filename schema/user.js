@@ -3,7 +3,7 @@
  */
 /* jshint node: true */
 
-import mongoose from "mongoose";
+var mongoose = require("mongoose");
 
 // create a schema
 var userSchema = new mongoose.Schema({
@@ -55,4 +55,4 @@ userSchema.path('login_name').validate(async (name) => {
 
 
 // make this available to our users in our Node applications
-export default User;
+module.exports = User;

@@ -1,7 +1,7 @@
 /* jshint node: true */
 
 // grab the things we need
-import mongoose from "mongoose";
+var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 // create a schema
@@ -15,4 +15,4 @@ var schemaInfo = new Schema({
 const SchemaInfo = mongoose.model('SchemaInfo', schemaInfo);
 
 // make this available 
-export default SchemaInfo;
+module.exports = SchemaInfo;

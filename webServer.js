@@ -28,27 +28,27 @@
  *                      should have all the Comments on the Photo (JSON format)
  *
  */
-import async from 'async';
-import express from 'express';
-import session from 'express-session';
-import bodyParser from 'body-parser';
-import multer from 'multer';
-import fs from 'fs';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import { makePasswordEntry, doesPasswordMatch } from './cs142password.js';
 
-// Load the Mongoose schema for User, Photo, and SchemaInfo
-import User from './schema/user.js';
-import Photo from './schema/photo.js';
-import SchemaInfo from './schema/schemaInfo.js';
-import Activity from './schema/activity.js';
-
-dotenv.config();
+var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
+require('dotenv').config();
+
+var async = require('async');
+var express = require('express');
 var app = express();
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const multer = require('multer');
 const processFormBody = multer({ storage: multer.memoryStorage() }).single('uploadedphoto');
+const fs = require("fs");
+const cs142password = require('./cs142password.js');
+
+// Load the Mongoose schema for User, Photo, and SchemaInfo
+var User = require('./schema/user.js');
+var Photo = require('./schema/photo.js');
+var SchemaInfo = require('./schema/schemaInfo.js');
+var Activity = require('./schema/activity.js');
 
 let uri;
 
@@ -98,7 +98,7 @@ app.post('/admin/login', (req, res) => {
                 return;
             }
 
-            if (!doesPasswordMatch(user.password_digest, user.salt, password)) {
+            if (!cs142password.doesPasswordMatch(user.password_digest, user.salt, password)) {
                 res.status(400).send({ errors: { password: 'Invalid password' } });
                 return;
             }
@@ -154,7 +154,7 @@ app.post('/user', (req, res) => {
         return;
     }
 
-    let passwordObject = makePasswordEntry(data.password);
+    let passwordObject = cs142password.makePasswordEntry(data.password);
     data.password_digest = passwordObject.hash;
     data.salt = passwordObject.salt;
 

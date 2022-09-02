@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+var crypto = require('crypto');
 /*
 * Return a salted and hashed password entry from a
 * clear text password.
@@ -37,4 +37,4 @@ function doesPasswordMatch(hash, salt, clearTextPassword) {
     return sha1.digest('hex') === hash;
 }
 
-export {makePasswordEntry, doesPasswordMatch};
+module.exports = {makePasswordEntry, doesPasswordMatch};

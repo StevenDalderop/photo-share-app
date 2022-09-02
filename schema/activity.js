@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+var mongoose = require("mongoose");
 
 var activitiesSchema = new mongoose.Schema({
     user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
@@ -9,4 +9,4 @@ var activitiesSchema = new mongoose.Schema({
 
 const Activity = mongoose.model('Activity', activitiesSchema);
 
-export default Activity;
+module.exports = Activity;
