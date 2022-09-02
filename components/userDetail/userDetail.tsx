@@ -6,20 +6,20 @@ import {
   Grid
 } from '@material-ui/core';
 import './userDetail.css';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import axios from 'axios';
 import Tumbnail from '../tumbnail/tumbnail';
-import { user, photo } from '../../types';
+import { User, Photo } from '../../types';
 
 type myProps = {
   callback: (text: string) => void,
-  history: any,
-  match: any
+  history: RouteComponentProps["history"],
+  match: RouteComponentProps["match"]
 }
 
 type myState = {
-  userDetails: user | null,
-  mentionedPhotos: photo[]
+  userDetails: User | null,
+  mentionedPhotos: Photo[]
 }
 
 
@@ -36,7 +36,7 @@ class UserDetail extends React.Component<myProps, myState> {
   }
 
   componentDidMount() {
-    let userId = this.props.match.params.userId;
+    const userId = this.props.match.params.userId;
     axios.get('user/' + userId)
       .then(res => { this.setState({ userDetails: res.data }); this.props.callback(res.data.first_name + " " + res.data.last_name); })
       .catch(err => console.log(err.response));
@@ -49,9 +49,9 @@ class UserDetail extends React.Component<myProps, myState> {
   componentDidUpdate(prevProps : myProps) {
     if (this.props.match.params.userId === prevProps.match.params.userId) {
       return;
-    };
+    }
 
-    let userId = this.props.match.params.userId;
+    const userId = this.props.match.params.userId;
     axios.get('user/' + userId)
       .then(res => { this.setState({ userDetails: res.data }); this.props.callback(res.data.first_name + " " + res.data.last_name); })
       .catch(err => console.log(err.response));
@@ -62,7 +62,7 @@ class UserDetail extends React.Component<myProps, myState> {
   }
 
   render() {
-    let userDetails = this.state.userDetails;
+    const userDetails = this.state.userDetails;
     if (userDetails === null) {
       return (
         <div></div>

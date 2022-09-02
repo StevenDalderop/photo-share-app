@@ -2,16 +2,17 @@ import React from 'react';
 import './loginRegister.css';
 
 import { Typography, TextField, Button, Snackbar, Grid } from '@material-ui/core';
+import { RouteComponentProps } from 'react-router';
 import axios from 'axios';
 
-import { user } from '../../types';
+import { User } from '../../types';
 
 const INPUT_NAMES = ['login_name', 'password', 'password_validation', 'first_name', 'last_name', 'location', 'occupation', 'description'];
 
 type myProps = {
     callback: (text: string) => void,
-    history: any,
-    callbackUser: (user: user) => void
+    history: RouteComponentProps["history"],
+    callbackUser: (user: User) => void
 }
 
 type myState = {
@@ -59,8 +60,8 @@ class LoginRegister extends React.Component<myProps, myState> {
 
     handleLogin = (e) => {
         e.preventDefault();
-        let login_name = e.target.login_name.value;
-        let password = e.target.password.value;
+        const login_name = e.target.login_name.value;
+        const password = e.target.password.value;
 
         axios.post('/admin/login', { login_name: login_name, password: password })
             .then(res => {

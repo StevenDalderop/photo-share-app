@@ -4,7 +4,7 @@
 
 /* jshint node: true */
 
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 /*
  * Photo can have comments and we stored them in the Photo object itself using
@@ -39,7 +39,7 @@ var photoSchema = new mongoose.Schema({
 
 // the schema is useless so far
 // we need to create a model using it
-var Photo = mongoose.model('Photo', photoSchema);
+const Photo = mongoose.model('Photo', photoSchema);
 
 // make this available to our photos in our Node applications
-module.exports = Photo;
+export default Photo;

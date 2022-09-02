@@ -8,13 +8,13 @@ import {
 }
   from '@material-ui/core';
 import './userList.css';
-import { user } from '../../types';
+import { User } from '../../types';
 
 
 /**
  * Define UserList, a React componment of CS142 project #5
  */
-class UserList extends React.Component<{users: user[]}> {
+class UserList extends React.Component<{users: User[]}> {
   constructor(props) {
     super(props);
   }

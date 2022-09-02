@@ -19,12 +19,12 @@ import AddPhoto from './components/addPhoto/addPhoto';
 import Activities from './components/userActivities/userActivities';
 import PrivateRoute from './components/privateRoute/privateRoute';
 
-import { user } from './types';
+import { User } from './types';
 
 type myState = {
   text: string,
-  user: user | null,
-  users: user[]
+  user: User | null,
+  users: User[]
 }
 
 
@@ -42,7 +42,7 @@ class PhotoShare extends React.Component<any, myState> {
     this.setState({ text: value });
   };
 
-  callbackUser = (user: user) => {
+  callbackUser = (user: User) => {
     this.setState({ user: user });
   };
 
@@ -69,6 +69,7 @@ class PhotoShare extends React.Component<any, myState> {
   }
 
   render() {
+    console.log(this.props);
     const logged_in = this.state.user !== null;
 
     return (

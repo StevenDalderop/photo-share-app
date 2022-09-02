@@ -3,22 +3,22 @@ import {
   Button,
   Grid
 } from '@material-ui/core';
-import { MentionsInput, Mention } from 'react-mentions';
+import { MentionsInput, Mention as ReactMention} from 'react-mentions';
 import axios from "axios";
 
 import './commentForm.css';
-import { photo, user, mention } from '../../types';
+import { Photo, User, Mention } from '../../types';
 
 type myProps = {
-  img: photo,
-  users: user[],
+  img: Photo,
+  users: User[],
   reloadPhotos: () => void
 }
 
 type myState = {
   comment: string,
   plainComment: string,
-  mentions: mention[]
+  mentions: Mention[]
 }
 
 
@@ -32,13 +32,13 @@ class CommentForm extends React.Component<myProps, myState> {
     };
   }
 
-  handleChange = (e : React.SyntheticEvent, newValue: string, newPlainTextValue: string, mentions: mention[]) => {
+  handleChange = (e : React.SyntheticEvent, newValue: string, newPlainTextValue: string, mentions: Mention[]) => {
     this.setState({ plainComment: newPlainTextValue, comment: newValue, mentions: mentions });
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
-    let comment = { comment: this.state.plainComment, mentions: this.state.mentions, comment_markup: this.state.comment };
+    const comment = { comment: this.state.plainComment, mentions: this.state.mentions, comment_markup: this.state.comment };
 
     axios.post('/commentsOfPhoto/' + this.props.img._id, comment)
       .then(() => {
@@ -56,7 +56,6 @@ class CommentForm extends React.Component<myProps, myState> {
 
 
   render() {
-    console.log(this.state);
     return (
       <form className="comment-form" noValidate autoComplete="off" onSubmit={(e) => this.handleSubmit(e)}>
         <div id="suggestions"></div>
@@ -65,7 +64,7 @@ class CommentForm extends React.Component<myProps, myState> {
             <MentionsInput className="mentions" name="comment" placeholder="Add a comment"
               suggestionsPortalHost={document.getElementById("suggestions")}
               value={this.state.comment} onChange={this.handleChange}>
-              <Mention
+              <ReactMention
                 trigger="@"
                 className="mentions__mention"
                 data={this.props.users.map(function (user) {

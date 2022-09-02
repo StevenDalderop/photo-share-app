@@ -4,13 +4,13 @@ import './tumbnail.css';
 import {
     Typography
 } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import { photo } from '../../types';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import { Photo } from '../../types';
 
 
 type myProps = {
-    history: any, 
-    img: photo
+    history: RouteComponentProps["history"], 
+    img: Photo
 }
 
 

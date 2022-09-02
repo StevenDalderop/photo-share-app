@@ -17,10 +17,22 @@
  */
 
 // We use the Mongoose to define the schema stored in MongoDB.
-var mongoose = require('mongoose');
-mongoose.Promise = require('bluebird');
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
-require('dotenv').config();
+// Load the Mongoose schema for Use and Photo
+import User from './schema/user.js';
+import Photo from './schema/photo.js';
+import SchemaInfo from './schema/schemaInfo.js';
+import Activity from './schema/activity.js';
+
+// Get the magic models we used in the previous projects.
+import { cs142models } from './modelData/photoApp.js';
+import { makePasswordEntry } from './cs142password.js';
+
+
+mongoose.Promise = require('bluebird');
+dotenv.config();
 
 let uri;
 
@@ -32,16 +44,6 @@ if (process.env.database === "mongo-atlas") {
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-
-// Get the magic models we used in the previous projects.
-var cs142models = require('./modelData/photoApp.js').cs142models;
-var cs142password = require('./cs142password.js');
-
-// Load the Mongoose schema for Use and Photo
-var User = require('./schema/user.js');
-var Photo = require('./schema/photo.js');
-var SchemaInfo = require('./schema/schemaInfo.js');
-var Activity = require('./schema/activity');
 
 var versionString = '1.0';
 
@@ -58,7 +60,7 @@ Promise.all(removePromises).then(function () {
     var mapFakeId2RealId = {}; // Map from fake id to real Mongo _id
     var userPromises = userModels.map(function (user) {
         const password = 'weak';
-        const passwordEntry = cs142password.makePasswordEntry(password);
+        const passwordEntry = makePasswordEntry(password);
         return User.create({
             first_name: user.first_name,
             last_name: user.last_name,

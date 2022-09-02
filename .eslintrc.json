@@ -5,7 +5,7 @@
   "extends": [
     "eslint:recommended",
     "eslint-config-airbnb",
-    "plugin:react/recommended"
+    "plugin:react/recommended"  
   ],
   "parser": "@babel/eslint-parser",
   "rules": {
@@ -121,6 +121,47 @@
   "settings": {
     "react": {
       "version": "detect"
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx"]
+      }
     }
-  }
+  },
+  "overrides": [{
+    "files": ["*.ts", "*.tsx"],
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"],
+    "extends": [
+      "plugin:react/recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "parserOptions": {
+      "ecmaversion": 2018,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "settings": {
+      "react": {
+        "version": "detect"
+      },
+      "import/resolver": {
+        "node": {
+          "extensions": [".js", ".ts", ".d.ts", ".tsx"],
+          "moduleDirectory": ["src", "node_modules"]
+        }
+      }
+    },
+
+    /**
+     * Typescript Rules
+     */
+    "rules": {
+      "no-shadow": "off",
+      "@typescript-eslint/no-shadow": ["error"],
+      "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }]
+    }
+  }]
 }

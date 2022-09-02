@@ -7,10 +7,10 @@ import {
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import Tumbnail from "../tumbnail/tumbnail";
-import { activity } from "../../types";
+import { Activity } from "../../types";
 
 
-class UserActivities extends React.Component<{ callback: (text: string) => void }, { activities: activity[] }> {
+class UserActivities extends React.Component<{ callback: (text: string) => void }, { activities: Activity[] }> {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,7 +22,8 @@ class UserActivities extends React.Component<{ callback: (text: string) => void 
     axios.get('/activities')
       .then(res => this.setState({ activities: res.data }))
       .catch(err => console.log(err.response));
-
+    
+    console.log(activity);
     this.props.callback("Latest activities");
   }
 
@@ -32,7 +33,7 @@ class UserActivities extends React.Component<{ callback: (text: string) => void 
       .catch(err => console.log(err.response));
   };
 
-  renderActivity(activity: activity) {
+  renderActivity(activity: Activity) {
     return (
       <Grid key={activity._id} item xs={12}>
         <Typography variant="h5">

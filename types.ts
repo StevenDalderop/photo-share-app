@@ -1,14 +1,4 @@
-type comment = {
-    _id: string,
-    comment: string,
-    date_time: Date,
-    user_id: string | user,
-    user: user,
-    mentions: mention[],
-    comment_markup: string
-}
-
-type user = {
+type User = {
     _id: string,
     first_name: string,
     last_name: string,
@@ -18,25 +8,7 @@ type user = {
     login_name: string
 }
 
-type photo = {
-    _id: string,
-    file_name: string,
-    date_time: Date,
-    user_id: string | user,
-    comments: comment[],
-    mentions: string[],
-    likes: string[]
-}
-
-type activity = {
-    _id: string,
-    type: "register" | "logout" | "login" | "add comment" | "photo upload",
-    date_time: Date,
-    user: user,
-    photo: photo
-}
-
-type mention = {
+type Mention = {
     childIndex: number,
     display: string,
     id: string,
@@ -44,4 +16,33 @@ type mention = {
     plainTextIndex: number
 }
 
-export type {comment, user, photo, activity, mention}
+type Comment = {
+    _id: string,
+    comment: string,
+    date_time: Date,
+    user_id?: string,
+    user?: User,
+    mentions: Mention[],
+    comment_markup: string
+}
+
+type Photo = {
+    _id: string,
+    file_name: string,
+    date_time: Date,
+    user_id?: string,
+    user?: User,
+    comments: Comment[],
+    mentions: string[],
+    likes: string[]
+}
+
+type Activity = {
+    _id: string,
+    type: "register" | "logout" | "login" | "add comment" | "photo upload",
+    date_time: Date,
+    user: User,
+    photo: Photo
+}
+
+export type {Comment, User, Photo, Activity, Mention};

@@ -1,6 +1,4 @@
-'use strict';
-
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 var activitiesSchema = new mongoose.Schema({
     user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
@@ -9,6 +7,6 @@ var activitiesSchema = new mongoose.Schema({
     photo: {type: mongoose.Schema.Types.ObjectId, ref: 'Photo'}
 });
 
-var activity = mongoose.model('Activity', activitiesSchema);
+const Activity = mongoose.model('Activity', activitiesSchema);
 
-module.exports = activity;
+export default Activity;

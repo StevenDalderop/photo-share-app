@@ -4,7 +4,7 @@ import axios from "axios";
 import React from "react";
 
 
-class AddPhoto extends React.Component<{ callback: (text: string) => void }, { succesMessage: any, errorMessage: string }> {
+class AddPhoto extends React.Component<{ callback: (text: string) => void }, { succesMessage: boolean, errorMessage: string }> {
   uploadInput: null | HTMLInputElement;
 
   constructor(props) {
@@ -12,7 +12,7 @@ class AddPhoto extends React.Component<{ callback: (text: string) => void }, { s
     this.state = {
       succesMessage: false,
       errorMessage: ""
-    }
+    };
     this.uploadInput = null;
   }
 
@@ -28,18 +28,18 @@ class AddPhoto extends React.Component<{ callback: (text: string) => void }, { s
     const domForm = new FormData();
     domForm.append('uploadedphoto', this.uploadInput.files[0]);
     axios.post('/photos/new', domForm)
-      .then(res => {
+      .then(() => {
         this.setState({ succesMessage: true });
-        if (this.uploadInput) { this.uploadInput.value = '' };
+        if (this.uploadInput) { this.uploadInput.value = ''; }
       })
-      .catch(err => { this.setState({ errorMessage: err.response.data }); console.log(err.response) });
+      .catch(err => { this.setState({ errorMessage: err.response.data }); console.log(err.response); });
   };
 
   handleChange = (e : React.SyntheticEvent) => {
     if (e.target.files.length === 0) {
       return;
     }
-    let file = e.target.files[0];
+    const file = e.target.files[0];
     if (file.size > 2 * 10 ** 6) { // 2 megabyte
       this.setState({errorMessage: "file size must be smaller than 2 MB"});
       return;
@@ -49,7 +49,7 @@ class AddPhoto extends React.Component<{ callback: (text: string) => void }, { s
       return;
     }
     this.setState({errorMessage: ""});
-  }
+  };
 
   handleClose = (event, reason) => {
     if (reason === 'clickaway') {

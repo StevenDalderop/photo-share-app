@@ -1,9 +1,7 @@
-"use strict";
-
 /* jshint node: true */
 
 // grab the things we need
-var mongoose = require('mongoose');
+import mongoose from "mongoose";
 var Schema = mongoose.Schema;
 
 // create a schema
@@ -14,7 +12,7 @@ var schemaInfo = new Schema({
 
 // the schema is useless so far
 // we need to create a model using it
-var SchemaInfo = mongoose.model('SchemaInfo', schemaInfo);
+const SchemaInfo = mongoose.model('SchemaInfo', schemaInfo);
 
 // make this available 
-module.exports = SchemaInfo;
+export default SchemaInfo;

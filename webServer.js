@@ -28,29 +28,27 @@
  *                      should have all the Comments on the Photo (JSON format)
  *
  */
-
-var mongoose = require('mongoose');
-mongoose.Promise = require('bluebird');
-
-require('dotenv').config();
-
-var async = require('async');
-
-var express = require('express');
-var app = express();
-const session = require('express-session');
-const bodyParser = require('body-parser');
-const multer = require('multer');
-const processFormBody = multer({ storage: multer.memoryStorage() }).single('uploadedphoto');
-const fs = require("fs");
-const cs142password = require('./cs142password.js');
-
+import async from 'async';
+import express from 'express';
+import session from 'express-session';
+import bodyParser from 'body-parser';
+import multer from 'multer';
+import fs from 'fs';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import { makePasswordEntry, doesPasswordMatch } from './cs142password.js';
 
 // Load the Mongoose schema for User, Photo, and SchemaInfo
-var User = require('./schema/user.js');
-var Photo = require('./schema/photo.js');
-var SchemaInfo = require('./schema/schemaInfo.js');
-var Activity = require('./schema/activity.js');
+import User from './schema/user.js';
+import Photo from './schema/photo.js';
+import SchemaInfo from './schema/schemaInfo.js';
+import Activity from './schema/activity.js';
+
+dotenv.config();
+mongoose.Promise = require('bluebird');
+
+var app = express();
+const processFormBody = multer({ storage: multer.memoryStorage() }).single('uploadedphoto');
 
 let uri;
 
@@ -100,7 +98,7 @@ app.post('/admin/login', (req, res) => {
                 return;
             }
 
-            if (!cs142password.doesPasswordMatch(user.password_digest, user.salt, password)) {
+            if (!doesPasswordMatch(user.password_digest, user.salt, password)) {
                 res.status(400).send({ errors: { password: 'Invalid password' } });
                 return;
             }
@@ -156,7 +154,7 @@ app.post('/user', (req, res) => {
         return;
     }
 
-    let passwordObject = cs142password.makePasswordEntry(data.password);
+    let passwordObject = makePasswordEntry(data.password);
     data.password_digest = passwordObject.hash;
     data.salt = passwordObject.salt;
 
@@ -315,6 +313,19 @@ app.get('/photosOfUser/:id', function (request, response) {
 
         await Promise.all(photos_.map(async function (photo) {
             delete photo.__v;
+            try {
+                let user = await User.findOne({ _id: photo.user_id });
+
+                if (user === null) {
+                    console.log('User with _id:' + id + ' not found.');
+                    response.status(400).send('Not found');
+                    return;
+                }
+                photo.user = user;
+                delete photo.user_id;                
+            } catch (_err) {
+                response.status(500).send(JSON.stringify(_err));
+            }
             await Promise.all(photo.comments.map(async function (comment) {
                 try {
                     let user = await User.findOne({ _id: comment.user_id });

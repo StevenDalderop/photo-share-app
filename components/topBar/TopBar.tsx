@@ -5,18 +5,18 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import './topBar.css';
 import axios from 'axios';
-import { withRouter } from 'react-router';
+import { withRouter, RouteComponentProps } from 'react-router';
 import UserList from '../userList/userList';
 
 
-import { user } from '../../types';
+import { User } from '../../types';
 
 type myProps = {
-  user: user,
-  users: user[],
-  history: any,
+  user: User,
+  users: User[],
+  history: RouteComponentProps["history"],
   text: string, 
-  callbackUser: (user: user | null) => void
+  callbackUser: (user: User | null) => void
 }
 
 type myState = {
