@@ -1,16 +1,16 @@
 import axios from "axios";
 import React from "react";
+import { Link, RouteComponentProps } from "react-router-dom";
 import {
   Button,
   Grid,
   Typography
 } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 import Tumbnail from "../tumbnail/tumbnail";
 import { Activity } from "../../types";
 
 
-class UserActivities extends React.Component<{ callback: (text: string) => void }, { activities: Activity[] }> {
+class UserActivities extends React.Component<{ callback: (text: string) => void, history: RouteComponentProps["history"] }, { activities: Activity[] }> {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,7 +23,6 @@ class UserActivities extends React.Component<{ callback: (text: string) => void 
       .then(res => this.setState({ activities: res.data }))
       .catch(err => console.log(err.response));
     
-    console.log(activity);
     this.props.callback("Latest activities");
   }
 
@@ -45,7 +44,7 @@ class UserActivities extends React.Component<{ callback: (text: string) => void 
         <Typography variant="body2">
           {new Date(activity.date_time).toLocaleString()}
         </Typography>
-        {activity.photo ? <Tumbnail {...this.props} img={activity.photo} /> : null}
+        {activity.photo ? <Tumbnail history={this.props.history} img={activity.photo} /> : null}
       </Grid>
     );
   }

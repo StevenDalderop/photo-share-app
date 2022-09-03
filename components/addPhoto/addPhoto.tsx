@@ -36,10 +36,11 @@ class AddPhoto extends React.Component<{ callback: (text: string) => void }, { s
   };
 
   handleChange = (e : React.SyntheticEvent) => {
-    if (e.target.files.length === 0) {
+    const files = (e.target as HTMLInputElement).files;
+    if (files.length === 0) {
       return;
     }
-    const file = e.target.files[0];
+    const file = files[0];
     if (file.size > 2 * 10 ** 6) { // 2 megabyte
       this.setState({errorMessage: "file size must be smaller than 2 MB"});
       return;

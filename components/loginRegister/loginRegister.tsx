@@ -2,6 +2,7 @@ import React from 'react';
 import './loginRegister.css';
 
 import { Typography, TextField, Button, Snackbar, Grid } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 import { RouteComponentProps } from 'react-router';
 import axios from 'axios';
 
@@ -147,15 +148,7 @@ class LoginRegister extends React.Component<myProps, myState> {
                     <Typography variant="h3">
                         Login
                     </Typography>
-                    <Typography variant="body1" color="error">
-                        For a quick demo try:                     
-                    </Typography>
-                    <Typography variant="body1" color="error">
-                        username: malcolm                    
-                    </Typography>
-                    <Typography variant="body1" color="error">
-                        password: weak                     
-                    </Typography>
+                    <Alert severity="error"> For a quick demo try <b>username:</b> malcolm <b>password:</b> weak </Alert>
                     <form noValidate autoComplete="off" className="login-form" onSubmit={this.handleLogin}>
                         <TextField id="outlined-basic" name="login_name" label="Login name" variant="outlined"
                             error={this.state.errorsLogin.login_name !== undefined}

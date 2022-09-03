@@ -21,9 +21,9 @@ var userListProperties = ['first_name', 'last_name', '_id'];
 var userDetailProperties = ['first_name', 'last_name', '_id',
     'location', 'description', 'occupation'];
 // Valid properties of the photo model
-var photoProperties = ['file_name', 'date_time', 'user_id', '_id', 'mentions', 'likes'];
+var photoProperties = ['file_name', 'date_time', 'user_id', 'user', '_id', 'mentions', 'likes'];
 // Valid comments properties
-var commentProperties = ['comment', 'date_time', '_id', 'user'];
+var commentProperties = ['comment', 'date_time', '_id', 'user', 'comment_markup', 'mentions'];
 
 function assertEqualDates(d1, d2) {
     assert(new Date(d1).valueOf() === new Date(d2).valueOf());
@@ -290,7 +290,7 @@ describe('CS142 Photo App API - ', function () {
                             }
                             var extraProps1 = _.difference(Object.keys(removeMongoProperties(photo)), photoProps);
                             assert.strictEqual(extraProps1.length, 0, 'photo object has extra properties: ' + extraProps1);
-                            assert.strictEqual(photo.user_id, id);
+                            assert.strictEqual(photo.user._id, id);
                             assertEqualDates(photo.date_time, real_photo.date_time);
                             assert.strictEqual(photo.file_name, real_photo.file_name);
 

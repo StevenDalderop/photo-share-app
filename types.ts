@@ -30,8 +30,7 @@ type Photo = {
     _id: string,
     file_name: string,
     date_time: Date,
-    user_id?: string,
-    user?: User,
+    user_id: User,
     comments: Comment[],
     mentions: string[],
     likes: string[]

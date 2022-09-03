@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
-  HashRouter, Route, Switch
+  HashRouter, Route, Switch, Redirect
 } from 'react-router-dom';
 import {
   Grid, Paper, Hidden, Typography
@@ -17,7 +17,6 @@ import UserPhotos from './components/userPhotos/userPhotos';
 import LoginRegister from './components/loginRegister/loginRegister';
 import AddPhoto from './components/addPhoto/addPhoto';
 import Activities from './components/userActivities/userActivities';
-import PrivateRoute from './components/privateRoute/privateRoute';
 
 import { User } from './types';
 
@@ -27,6 +26,32 @@ type myState = {
   users: User[]
 }
 
+const PrivateRoutes = function (props: { logged_in: boolean, callback: (value: string) => void , user: User | null, users: User[]}) {
+  if (!props.logged_in) {
+    return <Redirect to="/login" />;
+  }
+
+  return (
+    <Switch>
+      <Route path="/activities" render={props_ => {
+        return <Activities callback={props.callback} history={props_.history} />;
+      }} />
+      <Route path="/users/:userId" render={props_ => {
+        return <UserDetail callback={props.callback} history={props_.history} match={props_.match} />;
+      }}>        
+      </Route>
+      <Route path="/photos/add">
+        <AddPhoto callback={props.callback} />
+      </Route>
+      <Route path="/photos/:userId" render={props_ => {
+        return <UserPhotos match={props_.match} location={props_.location} user={props.user} users={props.users} callback={props.callback} />;
+      }} />
+      <Route path="*">
+        <Typography variant="body1">Page does not exist</Typography>
+      </Route>
+    </Switch>
+  );
+};
 
 class PhotoShare extends React.Component<any, myState> {
   constructor(props) {
@@ -64,12 +89,11 @@ class PhotoShare extends React.Component<any, myState> {
     if (prevState.user === null || prevState.user._id !== this.state.user._id) {
       axios.get('/user/list')
         .then(res => this.setState({ users: res.data }))
-        .catch(err => console.log(err));
+        .catch(err => console.log(err.response));
     }
   }
 
   render() {
-    console.log(this.props);
     const logged_in = this.state.user !== null;
 
     return (
@@ -93,21 +117,9 @@ class PhotoShare extends React.Component<any, myState> {
                   <Route path="/login"
                     render={props => <LoginRegister history={props.history} callback={this.callback} callbackUser={this.callbackUser} />}
                   />
-                  <PrivateRoute path="/activities" logged_in={logged_in}>
-                    <Activities callback={this.callback} />
-                  </PrivateRoute>
-                  <PrivateRoute path="/users/:userId" logged_in={logged_in}>
-                    <UserDetail callback={this.callback} />
-                  </PrivateRoute>
-                  <PrivateRoute path="/photos/add" logged_in={logged_in}>
-                    <AddPhoto callback={this.callback} />
-                  </PrivateRoute>
-                  <PrivateRoute path="/photos/:userId" logged_in={logged_in}>
-                    <UserPhotos user={this.state.user} users={this.state.users} callback={this.callback} />
-                  </PrivateRoute>
-                  <PrivateRoute path="*" logged_in={logged_in}>
-                    <Typography variant="body1">Page does not exist</Typography>
-                  </PrivateRoute>
+                  <Route>
+                    <PrivateRoutes logged_in={logged_in} callback={this.callback} user={this.state.user} users={this.state.users} />
+                  </Route>
                 </Switch>
               </Paper>
             </Grid>

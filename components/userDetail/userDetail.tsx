@@ -11,10 +11,14 @@ import axios from 'axios';
 import Tumbnail from '../tumbnail/tumbnail';
 import { User, Photo } from '../../types';
 
+interface MatchParams {
+  userId: string;
+}
+
 type myProps = {
   callback: (text: string) => void,
   history: RouteComponentProps["history"],
-  match: RouteComponentProps["match"]
+  match: RouteComponentProps<MatchParams>["match"]
 }
 
 type myState = {
