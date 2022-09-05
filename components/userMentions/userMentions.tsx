@@ -17,7 +17,8 @@ type MyProps = {
 }
 
 type MyState = {
-  mentionedPhotos: Photo[]
+  mentionedPhotos: Photo[],
+  isLoading: boolean
 }
 
 
@@ -25,7 +26,8 @@ class UserMentions extends React.Component<MyProps, MyState> {
   constructor(props: MyProps) {
     super(props);
     this.state = {
-      mentionedPhotos: []
+      mentionedPhotos: [],
+      isLoading: true
     };
   }
 
@@ -33,7 +35,7 @@ class UserMentions extends React.Component<MyProps, MyState> {
     const userId = this.props.match.params.userId;
 
     axios.get('mentionedPhotos/' + userId)
-      .then(res => this.setState({ mentionedPhotos: res.data }))
+      .then(res => this.setState({ mentionedPhotos: res.data, isLoading: false }))
       .catch(err => console.log(err.response));
   }
 
@@ -48,6 +50,8 @@ class UserMentions extends React.Component<MyProps, MyState> {
   }
 
   render() {
+    if (this.state.isLoading) { return(null); }
+    
     return (
       <div>
         {

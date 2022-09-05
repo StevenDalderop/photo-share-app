@@ -148,7 +148,7 @@ class LoginRegister extends React.Component<myProps, myState> {
                     <Typography variant="h3">
                         Login
                     </Typography>
-                    <Alert severity="error"> For a quick demo try <b>username:</b> malcolm <b>password:</b> weak </Alert>
+                    <Alert severity="error"> For a quick demo try <b>username:</b> took <b>password:</b> weak </Alert>
                     <form noValidate autoComplete="off" className="login-form" onSubmit={this.handleLogin}>
                         <TextField id="outlined-basic" name="login_name" label="Login name" variant="outlined"
                             error={this.state.errorsLogin.login_name !== undefined}

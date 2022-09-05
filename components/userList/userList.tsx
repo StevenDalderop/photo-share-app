@@ -34,7 +34,9 @@ class UserList extends React.Component<{ users: User[] }> {
               return (
                 <div key={user._id}>
                   <ListItem component={Link} to={"/users/" + user._id}>
-                    <ListItemText primary={user.first_name + " " + user.last_name} />
+                    <Typography variant="body1" className="friend">
+                      {user.first_name + " " + user.last_name}
+                    </Typography> 
                   </ListItem>
                   <Divider />
                 </div>

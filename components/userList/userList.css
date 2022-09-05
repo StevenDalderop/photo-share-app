@@ -1,0 +1,8 @@
+.friend {
+    color: mediumblue !important;
+    font-weight: 500 !important;
+}
+
+.friend:hover {
+    text-decoration: underline;
+}
