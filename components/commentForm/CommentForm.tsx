@@ -74,7 +74,7 @@ class CommentForm extends React.Component<myProps, myState> {
             </MentionsInput>
           </Grid>
           <Grid item xs={"auto"}>
-            <Button className="add-comment-button" variant="contained" color="primary" size="small" type="submit">
+            <Button className="add-comment-button" variant="contained" color="primary" type="submit">
               Add
             </Button>
           </Grid>

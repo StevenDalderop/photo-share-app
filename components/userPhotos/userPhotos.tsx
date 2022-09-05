@@ -2,19 +2,21 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import axios from 'axios';
 import {
-  Grid
+  Grid, Typography
 } from '@material-ui/core';
 import './userPhotos.css';
 
 import Photo from '../photo/photo';
-import { Photo as  PhotoType, User } from '../../types';
+import { Photo as PhotoType, User } from '../../types';
 
+interface MatchParams {
+  userId: string
+}
 
 type myProps = {
-  match: any,
+  match: RouteComponentProps<MatchParams>["match"],
   location: RouteComponentProps["location"],
-  callback: (text: string) => void,
-  user: User | null, 
+  user: User | null,
   users: User[]
 }
 
@@ -37,31 +39,29 @@ class UserPhotos extends React.Component<myProps, myState> {
     const userId = this.props.match.params.userId;
 
     axios.get('/photosofuser/' + userId)
-      .then(res => {this.setState({photos: res.data}); this.scroll();})
-      .catch(err => console.log(err));
-
-    axios.get('/user/' + userId)
-      .then(res => {
-        const text = 'Photos of ' + res.data.first_name + ' ' + res.data.last_name;
-        this.props.callback(text);
-      })
+      .then(res => { this.setState({ photos: res.data }); this.scroll(); })
       .catch(err => console.log(err));
   }
 
-  callback = () => {
+  componentDidUpdate(prevProps: Readonly<myProps>): void {
     const userId = this.props.match.params.userId;
+
+    if (userId === prevProps.match.params.userId) {
+      return;
+    }
+
     axios.get('/photosofuser/' + userId)
-      .then(res => {this.setState({photos: res.data});})
+      .then(res => { this.setState({ photos: res.data }); this.scroll(); })
       .catch(err => console.log(err));
-  };
+  }
 
 
-  callbackLikes = (updatedPhoto : PhotoType) => {
+  callbackLikes = (updatedPhoto: PhotoType) => {
     this.setState(prevState => {
       const index = prevState.photos.findIndex(photo => photo._id === updatedPhoto._id);
       const photos = [...this.state.photos];
       photos[index] = updatedPhoto;
-      return {photos: photos};
+      return { photos: photos };
     });
   };
 
@@ -69,8 +69,8 @@ class UserPhotos extends React.Component<myProps, myState> {
     const userId = this.props.match.params.userId;
 
     axios.get('/photosofuser/' + userId)
-      .then(res => {this.setState({photos: res.data}); this.scroll();})
-      .catch(err => console.log(err.response));    
+      .then(res => { this.setState({ photos: res.data }); this.scroll(); })
+      .catch(err => console.log(err.response));
   };
 
 
@@ -88,16 +88,30 @@ class UserPhotos extends React.Component<myProps, myState> {
 
   render() {
     return (
-      <Grid container spacing={3} direction='column' alignItems='center'>
-        { this.state.photos ? this.state.photos.map(img => (
-          <Photo key={img._id} 
-            user={this.props.user} 
-            users={this.props.users} 
-            img={img} 
-            callbackLikes={this.callbackLikes}
-            reloadPhotos={this.reloadPhotos} />
-          )) : null }
-      </Grid>
+      <div>
+        {
+          this.state.photos.length > 0 ?
+            (
+              <Grid container spacing={3} direction='column'>
+                {
+                  this.state.photos.map(img => (
+                    <Photo key={img._id}
+                      user={this.props.user}
+                      users={this.props.users}
+                      img={img}
+                      callbackLikes={this.callbackLikes}
+                      reloadPhotos={this.reloadPhotos} />
+                  ))
+                }
+              </Grid>
+            ) :
+            (
+              <Typography variant="body2" className="description">
+                Currently not any photos uploaded.
+              </Typography>
+            )
+        }
+      </div>
     );
   }
 }

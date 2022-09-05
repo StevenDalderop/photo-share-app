@@ -10,16 +10,31 @@
     align-items: start !important;
 }
 
+.view-comments, .zero-comments {
+    margin-right: 15px !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+
 .comment-header {
     display: flex;
     flex-direction: row;
 }
 
-.comment-date-time {
+.comment-date-time, .username {
     margin-right: 15px !important;
 }
 
-.likes {
+.comment-date-time {
+    line-height: 1.9 !important;
+    color: gray;
+}
+
+.username {
+    font-weight: 600 !important;
+}
+
+.photo-container-right {
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
@@ -29,9 +44,21 @@
     line-height: 1 !important;
 }
 
+.like-button:hover {
+    cursor: pointer;
+    background-color: lightblue;
+    border-radius: 50%;
+    padding: 8px;
+    margin: -8px;
+}
+
 .mention {
     background-color: lightblue;
     color: black;
     text-decoration: underline;
     font-weight: 400 !important;
+}
+
+.photo-container {
+    border: solid 1px lightgray;
 }

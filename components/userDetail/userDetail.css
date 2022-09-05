@@ -1,8 +1,22 @@
 .description {
     margin-top: 15px !important;
-    font-style: italic;
 }
 
-.photo-button {
+.photo-button, .user-info-container {
     margin-top: 15px !important;
+}
+
+.location {
+    margin-right: 15px !important;
+}
+
+.navigation-bar {
+    background-color: white !important;
+    margin-bottom: 30px !important;
+}
+
+@media (max-width: 600px) {
+    h3 {
+        font-size: 2rem !important;
+    }
 }

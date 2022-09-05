@@ -2,14 +2,15 @@ import React from 'react';
 import {
   Typography,
   Divider,
-  Button,
-  Grid
+  Grid,
+  AppBar,
+  Tabs,
+  Tab
 } from '@material-ui/core';
 import './userDetail.css';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import axios from 'axios';
-import Tumbnail from '../tumbnail/tumbnail';
-import { User, Photo } from '../../types';
+import { User } from '../../types';
 
 interface MatchParams {
   userId: string;
@@ -18,12 +19,12 @@ interface MatchParams {
 type myProps = {
   callback: (text: string) => void,
   history: RouteComponentProps["history"],
-  match: RouteComponentProps<MatchParams>["match"]
+  match: RouteComponentProps<MatchParams>["match"],
+  tabsValue: number
 }
 
 type myState = {
-  userDetails: User | null,
-  mentionedPhotos: Photo[]
+  userDetails: User | null
 }
 
 
@@ -34,36 +35,52 @@ class UserDetail extends React.Component<myProps, myState> {
   constructor(props) {
     super(props);
     this.state = {
-      userDetails: null,
-      mentionedPhotos: []
+      userDetails: null
     };
   }
 
   componentDidMount() {
     const userId = this.props.match.params.userId;
-    axios.get('user/' + userId)
-      .then(res => { this.setState({ userDetails: res.data }); this.props.callback(res.data.first_name + " " + res.data.last_name); })
-      .catch(err => console.log(err.response));
+    const path = this.props.match.path;
 
-    axios.get('mentionedPhotos/' + userId)
-      .then(res => this.setState({ mentionedPhotos: res.data }))
+    console.log(this.props);
+
+    axios.get('user/' + userId)
+      .then(res => { 
+        this.setState({ userDetails: res.data }); 
+        let prefix: string;
+        if (path.slice(0,6) === "/users") { prefix = "Photos of ";}
+        if (path.slice(0,9) === "/mentions") { prefix = "Mentions of ";}
+        this.props.callback(prefix + res.data.first_name + " " + res.data.last_name); 
+      })
       .catch(err => console.log(err.response));
   }
 
-  componentDidUpdate(prevProps : myProps) {
-    if (this.props.match.params.userId === prevProps.match.params.userId) {
+  componentDidUpdate(prevProps: myProps) {
+    if (this.props.match.url === prevProps.match.url) {
       return;
     }
 
     const userId = this.props.match.params.userId;
-    axios.get('user/' + userId)
-      .then(res => { this.setState({ userDetails: res.data }); this.props.callback(res.data.first_name + " " + res.data.last_name); })
-      .catch(err => console.log(err.response));
+    const path = this.props.match.path;
 
-    axios.get('mentionedPhotos/' + userId)
-      .then(res => this.setState({ mentionedPhotos: res.data }))
+    axios.get('user/' + userId)
+      .then(res => { 
+        this.setState({ userDetails: res.data }); 
+        let prefix: string;
+        if (path.slice(0,6) === "/users") { prefix = "Photos of ";}
+        if (path.slice(0,9) === "/mentions") { prefix = "Mentions of ";}
+        this.props.callback(prefix + res.data.first_name + " " + res.data.last_name); 
+      })
       .catch(err => console.log(err.response));
   }
+
+  handleChange = (event, newValue : number) => {
+    let url : string;
+    if (newValue === 0) { url = "/users/" + this.state.userDetails._id; }
+    if (newValue === 1) { url = "/mentions/" + this.state.userDetails._id; }
+    this.props.history.push(url);
+  };
 
   render() {
     const userDetails = this.state.userDetails;
@@ -79,43 +96,28 @@ class UserDetail extends React.Component<myProps, myState> {
           <Typography variant="h3">
             {userDetails.first_name + " " + userDetails.last_name}
           </Typography>
-          <Typography variant="subtitle1">
-            {"Location: " + userDetails.location}
-          </Typography>
-          <Typography variant="subtitle1">
-            {"Occupation: " + userDetails.occupation}
-          </Typography>
-          <Divider />
-          <Typography variant="body2" className="description">
+          <Typography variant="body1" className="description">
             {userDetails.description}
           </Typography>
-          <Button variant="contained" color="primary" component={Link} to={"/photos/" + userDetails._id} className="photo-button">
-            Show photos
-          </Button>
-          <Typography variant="h4">
-            Mentions
-          </Typography>
-          {
-            this.state.mentionedPhotos.length > 0 ?
-              (
-                <Grid container spacing={3}>
-                  {
-                    this.state.mentionedPhotos.map(photo => {
-                      return (
-                        <Grid key={photo._id} item sm={4} md={3}>
-                          <Tumbnail history={this.props.history} img={photo} />
-                        </Grid>
-                      );
-                    })
-                  }
-                </Grid>
-              ) :
-              (
-                <Typography variant="body2" className="description">
-                  Currently not mentioned in photos.
-                </Typography>
-              )
-          }
+          <Grid container className="user-info-container">
+            <Grid item>
+              <Typography variant="body2" className="location">
+                <b>Location: </b> {userDetails.location}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="body2">
+                <b>Occupation: </b> {userDetails.occupation}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Divider />
+          <AppBar position="static" className="navigation-bar">
+            <Tabs value={this.props.tabsValue} textColor="primary" onChange={this.handleChange} indicatorColor="primary">
+              <Tab label="Photos" />
+              <Tab label="Mentions" />
+            </Tabs>
+          </AppBar>
         </div>
       </div>
     );

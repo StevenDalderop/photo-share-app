@@ -20,7 +20,6 @@ type myProps = {
 }
 
 type myState = {
-  version: string,
   drawer: boolean
 }
 
@@ -32,39 +31,9 @@ class TopBar extends React.Component<myProps, myState> {
   constructor(props) {
     super(props);
     this.state = {
-      version: "",
       drawer: false
     };
   }
-
-
-  componentDidMount() {
-    if (this.props.user === null) {
-      return;
-    }
-
-    axios.get('/test/info')
-      .then((res) => this.setState({
-        version: res.data.__v
-      }))
-      .catch(err => console.log(err));
-  }
-
-
-  componentDidUpdate(prevProps) {
-    if (this.props.user === null) {
-      return;
-    }
-
-    if (prevProps.user === null || prevProps.user._id !== this.props.user._id) {
-      axios.get('/test/info')
-        .then((res) => this.setState({
-          version: res.data.__v
-        }))
-        .catch(err => console.log(err));
-    }
-  }
-
 
   handleLogout = (e) => {
     e.preventDefault();
@@ -105,16 +74,11 @@ class TopBar extends React.Component<myProps, myState> {
                 <>
                   <ListItem>
                     <Typography variant="h5" color="inherit">
-                      {"Hi " + this.props.user.first_name}
+                    {`Hi ${this.props.user.first_name} ${this.props.user.last_name}`}
                     </Typography>
                   </ListItem>
                   <ListItem>
-                    <Button color="inherit" onClick={this.handleLogout}>
-                      Logout
-                    </Button>
-                  </ListItem>
-                  <ListItem>
-                    <Button color="inherit" onClick={this.handleAddPhoto}>
+                    <Button variant="contained" color="secondary" onClick={this.handleAddPhoto}>
                       Add photo
                     </Button>
                   </ListItem>
@@ -124,22 +88,17 @@ class TopBar extends React.Component<myProps, myState> {
                     </Button>
                   </ListItem>
                   <ListItem>
-                    <Typography className="version" variant="subtitle2" color="inherit">
-                      {"Version: " + this.state.version}
-                    </Typography>
+                    <Button color="inherit" onClick={this.handleLogout}>
+                      Logout
+                    </Button>
                   </ListItem>
                   <Divider />
-                  <ListItem>
-                    <Typography variant="h5" color="inherit">
-                      Friends
-                    </Typography>
-                  </ListItem>
                 </>
               )}
             <UserList users={this.props.users} />
           </List>
         </Drawer>
-        <Typography variant="h5" color="inherit" className="topbar-right">
+        <Typography variant="h6" color="inherit" className="topbar-right topbar-text">
           {this.props.user ? this.props.text : "Please login"}
         </Typography>
       </>
@@ -153,23 +112,20 @@ class TopBar extends React.Component<myProps, myState> {
           (
             <>
               <Typography variant="h5" color="inherit">
-                {"Hi " + this.props.user.first_name}
+                {`Hi ${this.props.user.first_name} ${this.props.user.last_name}`}
               </Typography>
-              <Button className="logout-button" color="inherit" onClick={this.handleLogout}>
-                Logout
-              </Button>
-              <Button color="inherit" onClick={this.handleAddPhoto}>
+              <Button variant="contained" color="secondary" onClick={this.handleAddPhoto} className="add-photo-button">
                 Add photo
               </Button>
               <Button color="inherit" onClick={this.handleClick}>
                 Latest activities
               </Button>
-              <Typography className="version" variant="subtitle2" color="inherit">
-                {"Version: " + this.state.version}
-              </Typography>
+              <Button color="inherit" onClick={this.handleLogout}>
+                Logout
+              </Button>
             </>
           ) : null}
-        <Typography variant="h5" color="inherit" className="topbar-right">
+        <Typography variant="h6" color="inherit" className="topbar-right topbar-text">
           {this.props.user ? this.props.text : "Please login"}
         </Typography>
       </>

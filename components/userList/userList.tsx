@@ -4,7 +4,8 @@ import {
   Divider,
   List,
   ListItem,
-  ListItemText
+  ListItemText,
+  Typography
 }
   from '@material-ui/core';
 import './userList.css';
@@ -14,7 +15,7 @@ import { User } from '../../types';
 /**
  * Define UserList, a React componment of CS142 project #5
  */
-class UserList extends React.Component<{users: User[]}> {
+class UserList extends React.Component<{ users: User[] }> {
   constructor(props) {
     super(props);
   }
@@ -23,6 +24,11 @@ class UserList extends React.Component<{users: User[]}> {
     return (
       <div>
         <List component="nav">
+          <ListItem>
+            <Typography variant="h5" color="inherit">
+              Friends
+            </Typography>
+          </ListItem>
           {
             this.props.users.map(user => {
               return (

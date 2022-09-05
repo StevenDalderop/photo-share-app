@@ -13,6 +13,7 @@ import axios
 import TopBar from './components/topBar/topBar';
 import UserDetail from './components/userDetail/userDetail';
 import UserList from './components/userList/userList';
+import UserMentions from './components/userMentions/userMentions';
 import UserPhotos from './components/userPhotos/userPhotos';
 import LoginRegister from './components/loginRegister/loginRegister';
 import AddPhoto from './components/addPhoto/addPhoto';
@@ -26,7 +27,7 @@ type myState = {
   users: User[]
 }
 
-const PrivateRoutes = function (props: { logged_in: boolean, callback: (value: string) => void , user: User | null, users: User[]}) {
+const PrivateRoutes = function (props: { logged_in: boolean, callback: (value: string) => void, user: User | null, users: User[] }) {
   if (!props.logged_in) {
     return <Redirect to="/login" />;
   }
@@ -37,15 +38,25 @@ const PrivateRoutes = function (props: { logged_in: boolean, callback: (value: s
         return <Activities callback={props.callback} history={props_.history} />;
       }} />
       <Route path="/users/:userId" render={props_ => {
-        return <UserDetail callback={props.callback} history={props_.history} match={props_.match} />;
-      }}>        
+        return (
+          <>
+            <UserDetail callback={props.callback} history={props_.history} match={props_.match} tabsValue={0} />
+            <UserPhotos match={props_.match} location={props_.location} user={props.user} users={props.users} />
+          </>
+        );
+      }}>
       </Route>
+      <Route path="/mentions/:userId" render={props_ => {
+        return (
+          <>
+            <UserDetail callback={props.callback} history={props_.history} match={props_.match} tabsValue={1} />
+            <UserMentions match={props_.match} history={props_.history} />
+          </>
+        );
+      }} />
       <Route path="/photos/add">
         <AddPhoto callback={props.callback} />
       </Route>
-      <Route path="/photos/:userId" render={props_ => {
-        return <UserPhotos match={props_.match} location={props_.location} user={props.user} users={props.users} callback={props.callback} />;
-      }} />
       <Route path="*">
         <Typography variant="body1">Page does not exist</Typography>
       </Route>

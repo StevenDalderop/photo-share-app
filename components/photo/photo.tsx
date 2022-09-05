@@ -1,7 +1,7 @@
 import React from 'react';
 import './photo.css';
 import { Link } from 'react-router-dom';
-import { Typography, List, Divider, Grid } from '@material-ui/core';
+import { Typography, List, Divider, Grid, Button } from '@material-ui/core';
 import axios from 'axios';
 import { ThumbUp, ThumbUpOutlined } from '@material-ui/icons';
 import CommentForm from '../commentForm/commentForm';
@@ -55,11 +55,11 @@ const renderComment = (comment: Comment) => {
   return (
     <div key={comment._id} className="comment">
       <div className="comment-header">
-        <Typography variant="body1" className="comment-date-time">
-          {new Date(comment.date_time).toLocaleString()}
-        </Typography>
-        <Typography component={Link} to={"/users/" + comment.user._id} variant="body1" className="comment-date-time">
+        <Typography component={Link} to={"/users/" + comment.user._id} variant="body1" color="primary" className="username">
           {comment.user.first_name + " " + comment.user.last_name}
+        </Typography>
+        <Typography variant="body2" className="comment-date-time">
+          {new Date(comment.date_time).toLocaleDateString()}
         </Typography>
       </div>
       {renderHighlightedComment(comment)}
@@ -78,9 +78,12 @@ type myProps = {
 }
 
 
-class Photo extends React.Component<myProps> {
+class Photo extends React.Component<myProps, { showComments: boolean }> {
   constructor(props) {
     super(props);
+    this.state = {
+      showComments: false
+    };
   }
 
   handleLike = (image: PhotoType) => {
@@ -94,6 +97,10 @@ class Photo extends React.Component<myProps> {
       .catch(err => console.log(err.response));
   };
 
+  handleClick = () => {
+    this.setState(prevState => { return { showComments: !prevState.showComments }; });
+  };
+
   render() {
     const img = this.props.img;
 
@@ -103,19 +110,32 @@ class Photo extends React.Component<myProps> {
     }
 
     return (
-      <Grid key={img._id} item sm={7} md={5}>
+      <Grid key={img._id} item sm={7} md={5} className="photo-container">
         <img id={img._id} className="photo" src={"../images/" + img.file_name} />
         <Grid container justifyContent='space-between' alignItems='flex-end'>
-          <Grid item sm={6}>
+          <Grid item sm={4}>
             <Typography variant="caption">
-              {new Date(img.date_time).toLocaleString()}
+              {new Date(img.date_time).toLocaleDateString()}
             </Typography>
           </Grid>
-          <Grid item sm={2}>
-            <div className="likes">
+          <Grid item sm={8}>
+            <div className="photo-container-right">
+              {
+                img.comments.length > 0 ?
+                  (
+                    <Button className="view-comments" color="primary" size="small" onClick={this.handleClick}>
+                      {this.state.showComments ? "Hide comments " : "View comments "} ({img.comments.length})
+                    </Button>
+                  ) :
+                  (
+                    <Typography variant="button" color="primary" className="zero-comments">
+                      Comments (0)
+                    </Typography>
+                  )
+              }
               {liked ?
                 <ThumbUp color="primary" onClick={() => this.handleLike(img)} /> :
-                <ThumbUpOutlined color="primary" onClick={() => this.handleLike(img)} />}
+                <ThumbUpOutlined color="primary" onClick={() => this.handleLike(img)} className="like-button" />}
               <Typography variant="caption" className="likes-count">
                 {img.likes.length}
               </Typography>
@@ -124,7 +144,7 @@ class Photo extends React.Component<myProps> {
         </Grid>
         <List>
           <Divider />
-          {img.comments ? img.comments.map(renderComment) : null}
+          {img.comments && this.state.showComments ? img.comments.map(renderComment) : null}
           <CommentForm users={this.props.users} img={img} reloadPhotos={this.props.reloadPhotos} />
         </List>
       </Grid>

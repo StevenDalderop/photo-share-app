@@ -7,14 +7,20 @@
   margin-left: auto !important;
 }
 
-.version {
-  margin-left: 15px !important;
+.topbar-text {
+  max-width: 300px;
 }
 
-.logout-button {
+.add-photo-button {
   margin-left: 15px !important;
 }
 
 .drawer {
   min-width: 150px;
+}
+
+@media (max-width: 600px) {
+  h6 {
+      font-size: 1rem !important;
+  }
 }

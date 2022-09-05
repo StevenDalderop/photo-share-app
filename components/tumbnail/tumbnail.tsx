@@ -20,7 +20,7 @@ class Tumbnail extends React.Component<myProps> {
     }
 
     handleClick = (image : Photo) => {
-        this.props.history.push('/photos/' + image.user_id._id + "#" + image._id);
+        this.props.history.push('/users/' + image.user_id._id + "#" + image._id);
     };
 
     render() {
